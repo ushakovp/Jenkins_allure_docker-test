@@ -10,6 +10,6 @@
 //}
 node {
     stage('Build') {
-        sh 'gradle test -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit'
+        sh 'gradle test -g gradle-user-home --no-daemon -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit'
     }
 }
