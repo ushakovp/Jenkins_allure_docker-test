@@ -9,6 +9,7 @@
 //    }
 //}
 node {
+    checkout scm
     stage('Build') {
         sh 'gradle test -g gradle-user-home -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit'
     }
