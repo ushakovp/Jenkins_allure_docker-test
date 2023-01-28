@@ -1,28 +1,24 @@
-//pipeline {
-//    agent any
-//    stages {
-//        stage('Build') {
-//            steps {
-//                sh 'gradle test -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit'
-//            }
-//        }
-//    }
-//}
 node {
     checkout scm
-    stage('Build') {
-        sh 'gradle test -g gradle-user-home -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit'
+    def customImage
+    stage('Build Docker Image') {
+        customImage = docker.build("java-autotests", "-f Dockerfile .")
+    }
+    stage('Run Tests') {
+        customImage.inside {
+            sh "gradle test"
+        }
+    }
+    stage('Copy Allure Results') {
+        sh "docker cp ${customImage.id}:/app/build/allure-results ${WORKSPACE}/allure-results"
     }
     stage('Reports') {
-        ws("$workspace/build/"){
-            allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: "allure-results"]]
-            ])
-        }
-
+        allure([
+                includeProperties: false,
+                jdk              : '',
+                properties       : [],
+                reportBuildPolicy: 'ALWAYS',
+                results          : [[path: "allure-results"]]
+        ])
     }
 }
