@@ -2,6 +2,9 @@ node {
     checkout scm
     def customImage
     stage('Build Docker Image') {
+        environment {
+            DOCKER_BUILDKIT = "0"
+        }
         customImage = docker.build("java-autotests", "-f Dockerfile .")
     }
     stage('Run Tests') {
