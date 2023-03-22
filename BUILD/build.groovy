@@ -5,7 +5,7 @@ node {
         environment {
             DOCKER_BUILDKIT = "0"
         }
-        customImage = docker.build("java-autotests", "-f Dockerfile .")
+        customImage = docker.build("java-autotests", "-f ${WORKSPACE}/Dockerfile .")
     }
     stage('Run Tests') {
         customImage.inside {
