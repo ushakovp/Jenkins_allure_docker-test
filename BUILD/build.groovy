@@ -5,6 +5,7 @@ node {
     }
     stage('Run Tests') {
         sh "docker run --rm -v ${WORKSPACE}/allure-results:/app/build/allure-results java-autotests gradle test"
+        sh "sudo chown -R jenkins:jenkins allure-results"
     }
     stage('Reports') {
         allure([
