@@ -1,19 +1,10 @@
 node {
     checkout scm
-    def customImage
     stage('Build Docker Image') {
-        environment {
-            DOCKER_BUILDKIT = "0"
-        }
-        customImage = docker.build("java-autotests", "-f Dockerfile .")
+        sh "docker build -t java-autotests -f Dockerfile ."
     }
     stage('Run Tests') {
-        customImage.inside {
-            sh "gradle test"
-        }
-    }
-    stage('Copy Allure Results') {
-        sh "docker cp ${customImage.id}:/app/build/allure-results ${WORKSPACE}/allure-results"
+        sh "docker run --rm -v ${WORKSPACE}/allure-results:/app/build/allure-results java-autotests gradle test"
     }
     stage('Reports') {
         allure([
