@@ -4,7 +4,7 @@ node {
         sh "docker build -t java-autotests -f Dockerfile ."
     }
     stage('Run Tests') {
-            sh 'docker run --rm -u $(id -u jenkins):$(id -g jenkins) -v ${WORKSPACE}/allure-results:/app/build/allure-results -e HOME=/home/jenkins -e USER=jenkins -w /home/jenkins java-autotests sh -c "groupadd -g $(id -g jenkins) jenkins && useradd -u $(id -u jenkins) -g $(id -g jenkins) -d /home/jenkins -m -s /bin/sh jenkins && chown -R jenkins:jenkins /app/build/allure-results && su jenkins -c \"gradle test\""'
+            sh "docker run --rm -v ${WORKSPACE}/allure-results:/app/build/allure-results java-autotests gradle test"
     }
     stage('Reports') {
         allure([
