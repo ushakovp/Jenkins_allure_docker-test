@@ -10,7 +10,7 @@ node {
             currentBuild.result = 'FAILURE'
             throw err
         } finally {
-            sh "docker cp my-container:/app/build/allure-results ${WORKSPACE}/allure-results"
+            sh "docker cp my-container:/app/build/allure-results ${WORKSPACE}"
             sh "docker rm -f my-container"
         }
     }
