@@ -5,7 +5,7 @@ node {
         sh "docker build -t java-autotests -f Dockerfile ."
     }
     stage('Run Tests') {
-        containerId = sh(script: 'docker run --name my-container java-autotests gradle test', returnStdout: true).trim()
+        sh "docker run --name my-container java-autotests gradle --no-daemon test"
     }
     stage('Copy Allure Results') {
         sh "docker cp my-container:/app/build/allure-results ${WORKSPACE}/allure-results"
