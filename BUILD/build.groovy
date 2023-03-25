@@ -1,11 +1,10 @@
 node {
     checkout scm
-    def containerId
     stage('Build Docker Image') {
         sh "docker build -t java-autotests -f Dockerfile ."
     }
     stage('Run Tests') {
-        sh "docker run --name my-container java-autotests gradle --no-daemon test"
+        sh "docker run --name my-container java-autotests gradle test"
     }
     stage('Copy Allure Results') {
         sh "docker cp my-container:/app/build/allure-results ${WORKSPACE}/allure-results"
