@@ -5,7 +5,7 @@ node {
     }
     stage('Run Tests') {
         try {
-            sh "docker run --name my-container java-autotests gradle test --no-daemon -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
+            sh "docker run --name my-container --network=host java-autotests gradle test --no-daemon -Djavax.net.ssl.trustStore=$JAVA_HOME/lib/security/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
         } catch (ignored) {
             currentBuild.result = 'FAILURE'
         }
