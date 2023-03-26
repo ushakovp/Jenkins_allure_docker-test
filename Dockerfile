@@ -4,5 +4,6 @@ FROM gradle:7.6.0-jdk11-alpine
 COPY . /app
 
 RUN ls /app
+RUN ping https://central.maven.org/
 # navigate to the project directory
 WORKDIR /app
