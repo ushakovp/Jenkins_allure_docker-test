@@ -1,5 +1,8 @@
 node {
     checkout scm
+    stage('Download Dependencies') {
+        sh "gradle dependencies"
+    }
     stage('Build Docker Image') {
         sh "docker build -t java-autotests -f Dockerfile ."
     }

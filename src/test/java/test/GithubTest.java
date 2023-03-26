@@ -93,14 +93,14 @@ public class GithubTest {
         });
     }    @Test
     void githubSearch4() throws MalformedURLException {
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.remote = "http://localhost:4444/";
         SelenideLogger.addListener("allure", new AllureSelenide());
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("enableVNC", true);
-        capabilities.setCapability("enableVideo", true);
+        //capabilities.setCapability("enableVNC", true);
+        //capabilities.setCapability("enableVideo", true);
         Configuration.browserCapabilities = capabilities;
-        Configuration.browser = System.getProperty("browser_name", "firefox");
-        Configuration.browserVersion = System.getProperty("browser_version", "98.0");
+        Configuration.browser = System.getProperty("browser_name", "chrome");
+        Configuration.browserVersion = System.getProperty("browser_version", "107.0");
         Configuration.browserSize = System.getProperty("browser_size", "1920x1080");
         step("Открываем главную страницу", () -> {
             open("https://github.com");
